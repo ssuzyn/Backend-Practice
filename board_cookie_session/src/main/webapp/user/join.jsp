@@ -26,7 +26,7 @@ String root = request.getContextPath();
           </h2>
         </div>
         <div class="col-lg-8 col-md-10 col-sm-12">
-          <form id="form-join" method="POST" action="">
+          <form id="form-join" method="POST" action="<%=root %>/user?action=join">
             <div class="mb-3">
               <label for="username" class="form-label">이름 : </label>
               <input
@@ -138,7 +138,7 @@ String root = request.getContextPath();
           return;
         } else {
           let form = document.querySelector("#form-join");
-          form.setAttribute("action", "<%= root %>");
+          form.setAttribute("action", "<%=root %>/user?action=join");
           form.submit();
         }
       });

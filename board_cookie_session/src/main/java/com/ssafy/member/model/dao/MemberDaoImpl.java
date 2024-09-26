@@ -23,14 +23,51 @@ public class MemberDaoImpl implements MemberDao {
 
 	@Override
 	public int idCheck(String userId) throws SQLException {
-		// TODO Auto-generated method stub
-		return 0;
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		String sql = "select * from members where user_id = ?";
+		
+		try {
+			conn = dbUtil.getConnection();
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, userId);
+			rs = pstmt.executeQuery();
+			if(rs.next()) {
+				return 1; // 이미 존재하는 아이디
+			}
+		}
+		finally{
+			dbUtil.close(rs, pstmt, conn);
+		}
+				
+		return 0; // 존재하지 않은 아이디
 	}
 
 	@Override
 	public int joinMember(MemberDto memberDto) throws SQLException {
-		// TODO Auto-generated method stub
-		return 0;
+		
+		int cnt = 0;
+		Connection conn = null;
+		PreparedStatement stmt = null;
+		String sql = "insert into members (user_id, user_name, user_password,"
+				+ "email_id, email_domain) values(?,?,?,?,?)";
+
+		try {
+			conn = dbUtil.getConnection();
+			stmt = conn.prepareStatement(sql);
+			stmt.setString(1, memberDto.getUserId());
+			stmt.setString(2, memberDto.getUserName());
+			stmt.setString(3, memberDto.getUserPwd());
+			stmt.setString(4, memberDto.getEmailId());
+			stmt.setString(5, memberDto.getEmailDomain());
+			cnt = stmt.executeUpdate();
+		}
+		finally{
+			dbUtil.close(null);
+		}
+		
+		return cnt;
 	}
 
 	@Override

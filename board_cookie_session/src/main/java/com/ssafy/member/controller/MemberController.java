@@ -65,11 +65,39 @@ public class MemberController extends HttpServlet {
 	}
 	
 	private String join(HttpServletRequest request, HttpServletResponse response) {
-		// TODO : 이름, 아이디, 비밀번호, 이메일등 회원정보를 받아 MemberDto로 setting.
-		// TODO : 위의 데이터를 이용하여 service의 joinMember() 호출.
-		// TODO : 정상 등록 후 로그인 페이지로 이동.
-		return null;
+	    // 회원정보를 받아 MemberDto로 설정
+	    MemberDto memberDto = new MemberDto();
+	    memberDto.setUserName(request.getParameter("username"));
+	    memberDto.setUserId(request.getParameter("userid"));
+	    memberDto.setUserPwd(request.getParameter("userpwd"));
+	    memberDto.setEmailId(request.getParameter("emailid"));
+	    memberDto.setEmailDomain(request.getParameter("emaildomain"));
+
+	    try {
+	        // 아이디 중복 체크
+	        if (memberService.idCheck(memberDto.getUserId()) == 1) {
+	            System.out.println("회원가입 실패 - 중복된 아이디");
+	            return "/index.jsp";  // 중복된 아이디로 실패 시 홈으로 이동
+	        }
+
+	        // 회원가입 진행
+	        if (memberService.joinMember(memberDto) == 0) {
+	            System.out.println("회원가입 실패");
+	            return "/index.jsp";  // 회원가입 실패 시 홈으로 이동
+	        }
+
+	        // 회원가입 성공
+	        System.out.println("회원가입 성공");
+	        System.out.println(memberDto.toString());
+	        return "user?action=mvlogin";  // 성공 시 로그인 페이지로 이동
+
+	    } catch (Exception e) {
+	        e.printStackTrace();  // 예외 발생 시 스택 트레이스 출력
+	        System.out.println("회원가입 실패");
+	        return "/index.jsp";  // 실패 시 홈으로 이동
+	    }
 	}
+
 	
 	private String login(HttpServletRequest request, HttpServletResponse response) {
 		String userId = request.getParameter("userid");
@@ -108,6 +136,7 @@ public class MemberController extends HttpServlet {
 						}
 					}
 				}
+				System.out.println("로그인 성공");
 				return "index.jsp";
 			}
 			else { // 로그인 실패
