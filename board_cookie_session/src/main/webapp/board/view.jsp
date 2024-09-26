@@ -81,11 +81,11 @@ if(boardDto != null) {
       });
       document.querySelector("#btn-mv-modify").addEventListener("click", function () {
         alert("글수정하자!!!");
-        location.href = "<%= root %>";
+        location.href = "<%= root %>/article?action=mvmodify&articleno=<%=boardDto.getArticleNo()%>";
       });
       document.querySelector("#btn-delete").addEventListener("click", function () {
         alert("글삭제하자!!!");
-        location.href = "<%= root %>";
+        location.href = "<%= root %>/article?action=remove";
       });
     </script>
   </body>

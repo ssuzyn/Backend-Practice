@@ -37,25 +37,32 @@ public class BoardController extends HttpServlet {
 		if ("list".equals(action)) {
 			path = list(request, response);
 			forward(request, response, path);
-		} else if ("view".equals(action)) {
+		} 
+		else if ("view".equals(action)) {
 			path = view(request, response);
 			forward(request, response, path);
-		} else if ("mvwrite".equals(action)) {
+		} 
+		else if ("mvwrite".equals(action)) {
 			path = "/board/write.jsp";
 			redirect(request, response, path);
-		} else if ("write".equals(action)) {
+		} 
+		else if ("write".equals(action)) {
 			path = write(request, response);
 			redirect(request, response, path);
-		} else if ("mvmodify".equals(action)) {
+		} 
+		else if ("mvmodify".equals(action)) {
 			path = mvModify(request, response);
 			forward(request, response, path);
-		} else if ("modify".equals(action)) {
+		} 
+		else if ("modify".equals(action)) {
 			path = modify(request, response);
 			forward(request, response, path);
-		} else if ("delete".equals(action)) {
+		} 
+		else if ("remove".equals(action)) {
 			path = delete(request, response);
 			redirect(request, response, path);
-		} else {
+		} 
+		else {
 			redirect(request, response, path);
 		}
 	}
@@ -124,7 +131,6 @@ public class BoardController extends HttpServlet {
 				boardService.writeArticle(boardDto);
 				return "/article?action=list";
 			} catch (Exception e) {
-				e.printStackTrace();
 				return "/index.jsp";
 			}
 		} else
@@ -132,17 +138,44 @@ public class BoardController extends HttpServlet {
 	}
 
 	private String mvModify(HttpServletRequest request, HttpServletResponse response) {
+		HttpSession session = request.getSession();
+		MemberDto memberDto = (MemberDto) session.getAttribute("userinfo");
+		
 		// TODO : 수정하고자하는 글의 글번호를 얻는다.
+		int articleNo = Integer.parseInt(request.getParameter("articleno"));
 		// TODO : 글번호에 해당하는 글정보를 얻고 글정보를 가지고 modify.jsp로 이동.
-		return null;
+		BoardDto boardDto;
+		try {
+			boardDto = boardService.getArticle(articleNo);
+			request.setAttribute("article", boardDto);
+			return "board/modify.jsp";
+		} catch (Exception e) {
+			return "/article?action=list";
+		}
 	}
 
 	private String modify(HttpServletRequest request, HttpServletResponse response) {
-		// TODO : 수정 할 글정보를 얻고 BoardDto에 set.
-		// TODO : boardDto를 파라미터로 service의 modifyArticle() 호출.
-		// TODO : 글수정 완료 후 view.jsp로 이동.(이후의 프로세스를 생각해 보세요.)
-		return null;
+	    // 수정할 글 번호를 얻고 해당 글 정보를 다시 가져옵니다.
+	    int articleNo = Integer.parseInt(request.getParameter("articleno"));
+	    try {
+	        BoardDto boardDto = boardService.getArticle(articleNo); // 글 정보를 가져옴
+
+	        // 수정된 내용을 설정
+	        boardDto.setSubject(request.getParameter("subject"));
+	        boardDto.setContent(request.getParameter("content"));
+	        System.out.println("수정할 내역 : " + boardDto.toString());
+
+	        // 수정된 글 정보를 반영
+	        boardService.modifyArticle(boardDto);
+
+	        // 글 수정 후, 수정된 글을 보여주는 view로 이동
+	        return "/article?action=view&articleno=" + boardDto.getArticleNo();
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	        return "/article?action=list"; // 오류 시 목록으로 이동
+	    }
 	}
+
 
 	private String delete(HttpServletRequest request, HttpServletResponse response) {
 		// TODO : 삭제할 글 번호를 얻는다.

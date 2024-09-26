@@ -128,7 +128,20 @@ public class BoardDaoImpl implements BoardDao {
 	@Override
 	public void modifyArticle(BoardDto boardDto) throws SQLException {
 		// TODO : 글번호에 해당하는 제목과 내용 변경.
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		String sql = "update board set subject = ?, content = ? where article_no = ?";
 		
+		try {
+			conn = dbUtil.getConnection();
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, boardDto.getSubject());
+			pstmt.setString(2, boardDto.getContent());
+			pstmt.setInt(3, boardDto.getArticleNo());
+			pstmt.executeUpdate();
+		}finally {
+			dbUtil.close(pstmt, conn);
+		}	
 	}
 
 	@Override

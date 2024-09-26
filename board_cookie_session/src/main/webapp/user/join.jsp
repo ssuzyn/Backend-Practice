@@ -138,7 +138,6 @@ String root = request.getContextPath();
           return;
         } else {
           let form = document.querySelector("#form-join");
-          form.setAttribute("action", "<%=root %>/user?action=join");
           form.submit();
         }
       });

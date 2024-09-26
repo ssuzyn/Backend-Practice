@@ -41,7 +41,7 @@ public class BoardServiceImpl implements BoardService {
 
 	@Override
 	public void modifyArticle(BoardDto boardDto) throws Exception {
-		// TODO : BoardDaoImpl의 modifyArticle 호출
+		boardDao.modifyArticle(boardDto);
 		
 	}
 
