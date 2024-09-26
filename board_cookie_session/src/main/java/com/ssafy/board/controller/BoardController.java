@@ -179,9 +179,18 @@ public class BoardController extends HttpServlet {
 
 	private String delete(HttpServletRequest request, HttpServletResponse response) {
 		// TODO : 삭제할 글 번호를 얻는다.
+		int articleNo = Integer.parseInt(request.getParameter("articleno"));
+		
 		// TODO : 글번호를 파라미터로 service의 deleteArticle()을 호출.
-		// TODO : 글삭제 완료 후 list.jsp로 이동.(이후의 프로세스를 생각해 보세요.)
-		return null;
+		try {
+			boardService.deleteArticle(articleNo);
+			System.out.println("글 삭제 완료");
+			// TODO : 글삭제 완료 후 list.jsp로 이동.(이후의 프로세스를 생각해 보세요.)
+			return "/article?action=list";
+		} catch (Exception e) {
+			System.out.println("글 삭제 실패");
+		}
+		return "/article?action=list";
 	}
 
 }

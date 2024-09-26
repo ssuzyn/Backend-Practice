@@ -85,7 +85,7 @@ if(boardDto != null) {
       });
       document.querySelector("#btn-delete").addEventListener("click", function () {
         alert("글삭제하자!!!");
-        location.href = "<%= root %>/article?action=remove";
+        location.href = "<%= root %>/article?action=remove&articleno=<%=boardDto.getArticleNo()%>";
       });
     </script>
   </body>

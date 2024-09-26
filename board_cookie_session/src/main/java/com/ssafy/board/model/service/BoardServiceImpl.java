@@ -47,7 +47,7 @@ public class BoardServiceImpl implements BoardService {
 
 	@Override
 	public void deleteArticle(int articleNo) throws Exception {
-		// TODO : BoardDaoImpl의 deleteArticle 호출
+		boardDao.deleteArticle(articleNo);
 		
 	}
 
