@@ -155,6 +155,9 @@ public class BoardController extends HttpServlet {
 	}
 
 	private String modify(HttpServletRequest request, HttpServletResponse response) {
+		HttpSession session = request.getSession();
+		MemberDto memberDto = (MemberDto) session.getAttribute("userinfo");
+		
 	    // 수정할 글 번호를 얻고 해당 글 정보를 다시 가져옵니다.
 	    int articleNo = Integer.parseInt(request.getParameter("articleno"));
 	    try {
@@ -178,6 +181,9 @@ public class BoardController extends HttpServlet {
 
 
 	private String delete(HttpServletRequest request, HttpServletResponse response) {
+		HttpSession session = request.getSession();
+		MemberDto memberDto = (MemberDto) session.getAttribute("userinfo");
+		
 		// TODO : 삭제할 글 번호를 얻는다.
 		int articleNo = Integer.parseInt(request.getParameter("articleno"));
 		

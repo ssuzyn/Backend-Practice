@@ -1,7 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" 
 	pageEncoding="UTF-8" import="java.util.List,com.ssafy.board.model.BoardDto,com.ssafy.board.model.dao.BoardDaoImpl"%>
+<%@ include file="/common/confirm.jsp" %>
+
 <%
-String root = request.getContextPath();
+
+// String root = request.getContextPath();
 
 List<BoardDto> list = (List<BoardDto>) request.getAttribute("articles");
 %>
