@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" 
 	pageEncoding="UTF-8" import="com.ssafy.member.model.MemberDto"%> 
 <%@ include file="/common/confirm.jsp" %>
-	
+
 <%
 MemberDto memberDto = (MemberDto) session.getAttribute("userinfo");
 
@@ -18,7 +18,7 @@ if(cookies != null){
 		}
 	}
 }
-
+System.out.println(checked);
 %>
 <!DOCTYPE html>
 <html lang="ko">

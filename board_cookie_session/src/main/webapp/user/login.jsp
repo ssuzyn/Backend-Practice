@@ -1,6 +1,20 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%
 String root = request.getContextPath();
+
+Cookie[] cookies = request.getCookies();
+String checked = "";
+String saveId = "";
+
+if(cookies != null){
+	for(Cookie cookie : cookies){
+		if(cookie.getName().equals("SSAFY_ID")){
+			saveId = cookie.getValue();
+			checked = "checked";
+			break;
+		}
+	}
+}
 %>
 <!DOCTYPE html>
 <html lang="ko">
@@ -35,6 +49,7 @@ String root = request.getContextPath();
                 value="ok"
                 id="saveid"
                 name="saveid"
+                <%=checked %>
               />
               <label class="form-check-label" for="saveid"> 아이디저장 </label>
             </div>
@@ -46,6 +61,7 @@ String root = request.getContextPath();
                 id="userid"
                 name="userid"
                 placeholder="아이디..."
+                value="<%=saveId %>"
               />
             </div>
             <div class="mb-3">

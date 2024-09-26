@@ -151,7 +151,7 @@ public class MemberController extends HttpServlet {
 		HttpSession session = request.getSession();
 		session.removeAttribute("userinfo");
 		session.invalidate();
-		return "";
+		return "/index.jsp";
 	}
 
 }
